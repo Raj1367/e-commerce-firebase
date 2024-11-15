@@ -97,7 +97,7 @@ const Navbar = () => {
                   Cart
                 </p>
               </Link>
-              <LogoutButton />
+             <div className="block px-4 py-2 text-white rounded-full cursor-pointer"><LogoutButton /></div>
             </div>
           </div>
         )}
