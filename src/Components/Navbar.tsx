@@ -92,12 +92,17 @@ const Navbar = () => {
                   Profile
                 </p>
               </Link>
-              <Link to="/cart">
-                <p className="text-white text-md cursor-pointer flex gap-2" onClick={closeSidebar}>
-                  Cart
-                </p>
+              <Link to="/cart" className="relative">
+                <div className="text-white text-md cursor-pointer" title="cart">
+                  <BsCart3 size={24} />
+                </div>
+                {cartQuantity > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+                    {cartQuantity}
+                  </span>
+                )}
               </Link>
-             <div className="block px-4 py-2 text-white rounded-full cursor-pointer"><LogoutButton /></div>
+              <div className="block px-4 py-2 text-white rounded-full cursor-pointer"><LogoutButton /></div>
             </div>
           </div>
         )}
