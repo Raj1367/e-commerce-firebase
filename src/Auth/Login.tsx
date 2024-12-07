@@ -42,6 +42,7 @@ const Login: React.FC = () => {
       const user = getUserCredentials.user;
       const idToken = await user.getIdToken()
       dispatch(login({
+        uid: user.uid,
         token: idToken,
         email: user.email ?? '',
       }))
