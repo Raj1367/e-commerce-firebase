@@ -2,6 +2,7 @@ import { createSlice} from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
 interface userCredintials {
+    uid:string,
     token: string
     email: string | null;
 }
