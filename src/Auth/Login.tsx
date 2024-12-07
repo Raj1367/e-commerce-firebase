@@ -7,12 +7,14 @@ import { auth } from '../Components/FireBase';
 import { useDispatch } from 'react-redux';
 import { login } from '../ReduxToolkit/AuthSlice';
 import googleicon from "../Assets/google.png"
+
 interface LoginData {
   email: string;
   password: string;
 }
 
 const Login: React.FC = () => {
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -20,6 +22,7 @@ const Login: React.FC = () => {
     email: "",
     password: "",
   });
+
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -31,30 +34,24 @@ const Login: React.FC = () => {
     }));
   };
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        loginData.email,
-        loginData.password
-      );
-      const user = userCredential.user;
-
-      dispatch(
-        login({
-          uid: user.uid,
-          email: user.email ?? '',
-          displayName: user.displayName ?? '',
-        })
-      );
-
-      navigate('/');
-    } catch (error: any) {
-      console.error('Login failed:', error);
-      setErrorMessage('Login failed. Please check your credentials.');
+      const getUserCredentials = await signInWithEmailAndPassword(auth, loginData.email, loginData.password)
+      const user = getUserCredentials.user;
+      const idToken = await user.getIdToken()
+      dispatch(login({
+        token: idToken,
+        email: user.email ?? '',
+      }))
+      navigate("/")
     }
-  };
+
+    catch (error: any) {
+      alert(error.message || error)
+    }
+  }
 
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
@@ -92,6 +89,7 @@ const Login: React.FC = () => {
           )}
 
           <form onSubmit={handleSubmit}>
+            
             <div className="flex flex-col gap-4 w-[270px]">
               <div>
                 <label htmlFor="email" className="text-md font-semibold">Email:</label>
